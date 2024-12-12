@@ -22,7 +22,6 @@
 
 // module.exports = connection;
 
-require("dotenv").config({ path: __dirname + "/../.env" });
 const { Sequelize } = require("sequelize");
 
 const connection = new Sequelize(process.env.MYSQL_URL, {
