@@ -1,0 +1,61 @@
+/* Estilos Generales */
+
+  
+  /* html, body {
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+    background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
+  }
+   */
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .auth-card {
+    border-radius: 10px;
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  .auth-title {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .auth-button {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.8rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-button:hover {
+    background-color: #22c55e !important; /* Verde más fuerte */
+  }
+  
+  /* Animación de aparición */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
