@@ -36,21 +36,20 @@ const AbmProductos = () => {
         console.error("No se encontró el token en localStorage.");
         return;
       }
-  
+
       const response = await axios.get("http://localhost:3000/api/productos", {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       console.log("Productos recibidos:", response.data);
-  
+
       // Configuramos productos directamente sin fotoURL
       setProductos(response.data);
     } catch (error) {
       console.error("Error al obtener los productos:", error.response || error);
     }
   };
-  
-  
+
   const obtenerProveedores = async () => {
     try {
       const token = localStorage.getItem("firebaseToken");
@@ -58,11 +57,14 @@ const AbmProductos = () => {
         console.error("No se encontró el token en localStorage.");
         return;
       }
-  
-      const response = await axios.get("http://localhost:3000/api/proveedores", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  
+
+      const response = await axios.get(
+        "http://localhost:3000/api/proveedores",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       console.log("Proveedores obtenidos:", response.data);
       setProveedores(
         response.data.map((proveedor) => ({
@@ -71,34 +73,37 @@ const AbmProductos = () => {
         }))
       );
     } catch (error) {
-      console.error("Error al obtener los proveedores:", error.response || error);
+      console.error(
+        "Error al obtener los proveedores:",
+        error.response || error
+      );
     }
   };
-  
+
   const editarProducto = async () => {
     const formData = new FormData();
-  
+
     formData.append("nombreComercial", form.nombreComercial);
     formData.append("nombre", form.nombre);
     formData.append("unidadMedida", form.unidadMedida);
     formData.append("precioCompra", form.precioCompra);
     formData.append("precioVenta", form.precioVenta);
     formData.append("proveedor", form.proveedor);
-  
+
     if (form.foto) {
       console.log("Archivo seleccionado para edición:", form.foto);
       formData.append("foto", form.foto);
     } else {
       console.warn("No se seleccionó ninguna foto nueva.");
     }
-  
+
     try {
       const token = localStorage.getItem("firebaseToken");
       if (!token) {
         console.error("No se encontró el token en localStorage.");
         return;
       }
-  
+
       const response = await axios.put(
         `http://localhost:3000/api/productos/${form.id}`,
         formData,
@@ -109,7 +114,7 @@ const AbmProductos = () => {
           },
         }
       );
-  
+
       console.log("Producto actualizado con éxito:", response.data);
       setModalVisible(false);
       obtenerProductos();
@@ -117,31 +122,31 @@ const AbmProductos = () => {
       console.error("Error al actualizar producto:", error.response || error);
     }
   };
-  
+
   const guardarProducto = async () => {
     const formData = new FormData();
-  
+
     formData.append("nombreComercial", form.nombreComercial);
     formData.append("nombre", form.nombre);
     formData.append("unidadMedida", form.unidadMedida);
     formData.append("precioCompra", form.precioCompra);
     formData.append("precioVenta", form.precioVenta);
     formData.append("proveedor", form.proveedor);
-  
+
     if (form.foto) {
       console.log("Archivo seleccionado en frontend:", form.foto);
       formData.append("foto", form.foto);
     } else {
       console.error("Ninguna foto seleccionada en el frontend.");
     }
-  
+
     try {
       const token = localStorage.getItem("firebaseToken");
       if (!token) {
         console.error("No se encontró el token en localStorage.");
         return;
       }
-  
+
       const response = await axios.post(
         "http://localhost:3000/api/productos",
         formData,
@@ -152,7 +157,7 @@ const AbmProductos = () => {
           },
         }
       );
-  
+
       console.log("Producto guardado con éxito:", response.data);
       setModalVisible(false);
       obtenerProductos();
@@ -160,7 +165,7 @@ const AbmProductos = () => {
       console.error("Error al guardar producto:", error.response || error);
     }
   };
-  
+
   const eliminarProducto = async (producto) => {
     try {
       const token = localStorage.getItem("firebaseToken");
@@ -168,7 +173,7 @@ const AbmProductos = () => {
         console.error("No se encontró el token en localStorage.");
         return;
       }
-  
+
       await axios.delete(`http://localhost:3000/api/productos/${producto.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -178,7 +183,6 @@ const AbmProductos = () => {
       console.error("Error al eliminar producto:", error.response || error);
     }
   };
-  
 
   const abrirModal = (producto) => {
     setForm(
@@ -197,19 +201,6 @@ const AbmProductos = () => {
     setModalVisible(true);
   };
 
-  const resetForm = () => {
-    setForm({
-      id: "",
-      nombre: "",
-      nombreComercial: "",
-      unidadMedida: "",
-      precioCompra: "",
-      precioVenta: "",
-      proveedor: "",
-      foto: null,
-    });
-  };
-
   return (
     <div className="p-container">
       <Button
@@ -225,15 +216,9 @@ const AbmProductos = () => {
         <Column field="unidadMedida" header="Unidad de Medida" />
         <Column field="precioCompra" header="Precio Compra" />
         <Column field="precioVenta" header="Precio Venta" />
-        <Column
-  field="proveedor"
-  header="Proveedor"
-/>
+        <Column field="proveedor" header="Proveedor" />
 
-
-
-
-{/* <Column
+        {/* <Column
   header="Foto"
   body={(rowData) => {
     try {
@@ -260,41 +245,38 @@ const AbmProductos = () => {
   }}
 /> */}
 
-<Column
-  header="Foto"
-  body={(rowData) => {
-    try {
-      if (rowData.foto && rowData.foto.data) {
-        const base64Image = btoa(
-          new Uint8Array(rowData.foto.data).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-            ""
-          )
-        );
-        return (
-          <img
-            src={`data:image/jpeg;base64,${base64Image}`}
-            alt={rowData.nombreComercial || "Producto"}
-            style={{ width: "100px", height: "auto", objectFit: "cover" }}
-            onError={(e) => (e.target.src = "https://via.placeholder.com/100")}
-          />
-        );
-      }
-    } catch (error) {
-      console.error("Error al renderizar la imagen:", error);
-    }
-    return <span>Sin imagen</span>;
-  }}
-/>
-
-
-
-
-
-
-
-
-
+        <Column
+          header="Foto"
+          body={(rowData) => {
+            try {
+              if (rowData.foto && rowData.foto.data) {
+                const base64Image = btoa(
+                  new Uint8Array(rowData.foto.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                  )
+                );
+                return (
+                  <img
+                    src={`data:image/jpeg;base64,${base64Image}`}
+                    alt={rowData.nombreComercial || "Producto"}
+                    style={{
+                      width: "100px",
+                      height: "auto",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) =>
+                      (e.target.src = "https://via.placeholder.com/100")
+                    }
+                  />
+                );
+              }
+            } catch (error) {
+              console.error("Error al renderizar la imagen:", error);
+            }
+            return <span>Sin imagen</span>;
+          }}
+        />
 
         <Column
           header="Acciones"
@@ -384,19 +366,14 @@ const AbmProductos = () => {
             <Dropdown
               id="proveedor"
               name="proveedor"
-              value={form.proveedor} 
-              options={proveedores.map((prov) => ({ label: prov.nombre, value: prov.nombre }))} 
-              onChange={(e) => setForm({ ...form, proveedor: e.value })} 
+              value={form.proveedor}
+              options={proveedores.map((prov) => ({
+                label: prov.nombre,
+                value: prov.nombre,
+              }))}
+              onChange={(e) => setForm({ ...form, proveedor: e.value })}
               placeholder="Seleccionar Proveedor"
             />
-
-
-
-
-
-
-
-
           </div>
 
           <div className="p-field">
@@ -413,9 +390,6 @@ const AbmProductos = () => {
                 setForm({ ...form, foto: e.files[0] });
               }}
             />
-
-
-
           </div>
 
           <Button
@@ -424,7 +398,6 @@ const AbmProductos = () => {
             className="p-mt-2"
             onClick={editMode ? editarProducto : guardarProducto}
           />
-
         </div>
       </Dialog>
     </div>
