@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const connection = require("../dbConnection");
+const connection = require("../dBconnection");
 
 const Provider = connection.define("Provider", {
   id: {

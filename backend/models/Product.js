@@ -45,7 +45,7 @@
 
 
 const { DataTypes } = require("sequelize");
-const sequelize = require("../dbConnection");
+const sequelize = require("../dBconnection");
 
 const Product = sequelize.define("Product", {
   id: {
