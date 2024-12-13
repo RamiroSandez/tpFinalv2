@@ -20,7 +20,8 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.2.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack-dev-server": "^4.11.1"
   },
   "scripts": {
     "start": "cross-env PORT=3001 NODE_OPTIONS=--max-old-space-size=4096 react-scripts start",
