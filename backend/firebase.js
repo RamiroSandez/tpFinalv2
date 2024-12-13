@@ -3,7 +3,8 @@ const serviceAccount = require("./firebasedatos.json"); // Ruta relativa a tu ar
 
 // Inicializar Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://tp-backend-238c2.firebaseio.com", // Asegúrate de que este URL sea correcto
 });
 
 console.log("Firebase Admin SDK inicializado correctamente.");
